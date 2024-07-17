@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Vue Project</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" href="./assets/img/vueLogo.png" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"/>
+    <link href="./assets/style/style.css" rel="stylesheet" />
+</head>
+
+<body>
+<div id="app">
+    <!-- Navigation bar -->
+    <nav>
+        <div class="nav-container">
+            <div id="logo">
+              <router-link to="/">
+                <img src="./assets/img/wish-logo-800.png" alt="logo" />
+              </router-link>
+            </div>
+            <!-- Navigation icons with router links -->
+            <ul id="icons">
+                <li>
+                    <router-link to="/UserSettings"><i class="fas fa-user"></i></router-link>
+                </li>
+                <li>
+                    <router-link to="/WishList"><i class="fas fa-heart"></i></router-link>
+                    <span id="nav-notif"></span>
+                </li>
+                <li>
+                    <router-link to="/ShoppingCart"><i class="fas fa-shopping-cart"></i></router-link>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Router view for rendering components -->
+    <router-view></router-view>
+</div>
+
+<!-- Vue.js -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+<!-- Vue Router -->
+<script src="https://unpkg.com/vue-router@3.0.0/dist/vue-router.js"></script>
+<!-- Vue Cookies -->
+<script src="https://unpkg.com/vue-cookies@1.8.2/vue-cookies.js"></script>
+
+<!-- Template for Home component -->
+<script type="text/x-template" id="home">
+  <div class="home-container"> 
+    <h1>Articles</h1>
+    <input v-model="searchkey" type="search" id="search" placeholder="Recherche..." autocomplete="off">
+    <span v-if="searchkey && filtredList.length >= 1">
+      {{ filtredList.length }} résultat<span v-if="filtredList.length >= 2">s</span>
+    </span>
+
+    <div class="card-cart-container">
+      <div class="card-container">
+        <div v-for="product in filtredList" class="card">
+          <div class="img-container">
+            <img :src="product.img" alt="">
+          </div>
+          <div class="card-text">
+            <h3>{{ product.description }}</h3>
+            <span>{{ product.price }}€</span>
+          </div>
+          <div class="card-icons">
+            <div class="like-container">
+              <input 
+                    type="checkbox"
+                    name="checkbox" 
+                    :id="product.id"
+                    :value="product.id"
+                    v-model="liked"
+                    @click="setlikeCookie"
+                    />
+              <label :for="product.id">
+                <i class="fas fa-heart"></i>
+              </label>
+            </div>
+            <div class="add-to-cart">
+              <button>
+                <i class="fas fa-shopping-cart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div v-if="filtredList.length === 0" class="no-result">
+          <h3>Désolé</h3>
+          <p>Aucun résultat trouvé</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<!-- Script JS -->
+<script src="./assets/js/vue.js"></script>
+<script src="./assets/js/script.js"></script>
+
+</body>
+</html>
